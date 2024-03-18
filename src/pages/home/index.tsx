@@ -1,6 +1,6 @@
 import { CardTShirt } from "../../components/CardTshirt";
-import productJson from "../../product.json";
 import { HomeContainer } from "./styles";
+import productJson from "../../product.json";
 
 export function Home() {
   return (

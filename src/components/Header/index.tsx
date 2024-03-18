@@ -26,8 +26,10 @@ export function Header() {
       <div>Legaltest</div>
 
       <ShoppingWrapper>
-        <LuShoppingBag />
-        Carrinho({totalShoppingCart})
+        <a href="../../pages/shoppingCart">
+          <LuShoppingBag />
+          Carrinho({totalShoppingCart})
+        </a>
       </ShoppingWrapper>
     </HeaderContainer>
   );

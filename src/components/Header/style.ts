@@ -6,6 +6,7 @@ export const HeaderContainer = styled.header`
   justify-content: space-between;
   padding: 20px;
   height: 50px;
+
 `;
 
 export const ShoppingWrapper = styled.div`

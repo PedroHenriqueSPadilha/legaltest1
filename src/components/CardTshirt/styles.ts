@@ -29,7 +29,7 @@ export const ButtonPrice = styled.div`
 
   button {
     border-radius: 999px;
-    border: 1px solid gray;
+    border: 1px solid #71717a;
     background: ${(props) => props.theme["black-400"]};
     color: ${(props) => props.theme["white"]};
     display: flex;
