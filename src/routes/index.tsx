@@ -9,7 +9,7 @@ export const router = createBrowserRouter([
   },
 
   {
-    path: "/",
+    path: "/carrinho",
     element: <CartShopping />,
   },
 ]);

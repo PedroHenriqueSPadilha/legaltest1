@@ -28,17 +28,23 @@ export const ButtonPrice = styled.div`
   justify-content: center;
 
   button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     border-radius: 999px;
     border: 1px solid #71717a;
     background: ${(props) => props.theme["black-400"]};
     color: ${(props) => props.theme["white"]};
-    display: flex;
-    align-items: center;
+
     width: 240px;
-    top: 320px;
-    left: 32px;
-    justify-content: space-between;
     height: 48px;
+    transition: transform 0.2s; /* Adiciona uma transição suave para o efeito de scale */
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.05); /* Aumenta o botão em 5% */
+    }
 
     span {
       border-radius: 999px;

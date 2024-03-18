@@ -1,67 +1,53 @@
-import { ButtonPrice, CardContainer, ImageContent } from "./styles";
-import { products } from "../../product.json";
 import tshirt1 from "../../assets/img/jacket01.png";
 import tshirt2 from "../../assets/img/jacket02.png";
 import tshirt3 from "../../assets/img/jacket03.png";
 import tshirt4 from "../../assets/img/jacket04.png";
 
-import {
-  getQuantityShoppingCart,
-  setCountTShirt,
-  setSaveTShirt,
-} from "../../services/localStorage";
+import { getTShirt, setSaveTShirt } from "../../services/localStorage";
 
-interface Product {
-  // Tipando o objeto para poder acessar mais pra baixo
-  id: number;
-  title: string;
-  price: number;
-  image: string;
-}
+import { products } from "../../product.json";
+import { CardTShirtProps } from "./interface";
 
-interface CardTShirtProps {
-  data: Product;
-}
+import { ButtonPrice, CardContainer, ImageContent } from "./styles";
 
-const images: any = {
-  // verifica oque vem da outra tela do map e compara qual imagem é e depois puxa do import la em cima
+const imageMap: any = {
   "/jacket01.png": tshirt1,
   "/jacket02.png": tshirt2,
   "/jacket03.png": tshirt3,
   "/jacket04.png": tshirt4,
 };
 
-export function CardTShirt({ data }: CardTShirtProps) {
-  const { id, title, price, image } = data; // apenas para separar as propriedades
+export function CardTShirt(props: CardTShirtProps) {
+  const { data } = props;
 
-  const imageSrc = images[image]; // para comparar
+  const imageSrc = imageMap[data.image];
 
   const handleSaveTShirt = (id: number) => {
-    // sei la oq faz isso
-    const total = getQuantityShoppingCart();
-    const productIdAsString = id.toString();
-    if (total && Number(total) < products.length) {
-      let newTotal = Number(total) + 1;
-      setCountTShirt(newTotal.toString());
-      window.dispatchEvent(new CustomEvent("atualizacaoCarrinho"));
-    }
-    if (total == null && Number(total) <= products.length) {
-      setCountTShirt("1");
-    }
+    const savedIds = getTShirt() || [];
 
-    setSaveTShirt(productIdAsString);
+    if (!savedIds.includes(id)) {
+      if (savedIds.length < products.length) {
+        savedIds.push(id);
+        setSaveTShirt(savedIds);
+        window.dispatchEvent(new CustomEvent("atualizacaoCarrinho"));
+      } else {
+        alert("O carrinho está cheio.");
+      }
+    } else {
+      alert("Este item já está adicionado ao carrinho.");
+    }
   };
 
   return (
     <CardContainer>
       <ImageContent>
-        <img src={imageSrc} alt={title} />
+        <img src={imageSrc} alt={data.title} />
       </ImageContent>
 
       <ButtonPrice>
-        <button onClick={() => handleSaveTShirt(id)}>
-          <p>{title}</p>
-          <span>R${price}</span>
+        <button onClick={() => handleSaveTShirt(data.id)}>
+          <p>{data.title}</p>
+          <span>R${data.price}</span>
         </button>
       </ButtonPrice>
     </CardContainer>

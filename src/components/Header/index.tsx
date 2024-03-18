@@ -1,17 +1,28 @@
 import { useEffect, useState } from "react";
-import { getQuantityShoppingCart } from "../../services/localStorage";
-import { HeaderContainer, ShoppingWrapper } from "./style";
+
+import { getTShirt } from "../../services/localStorage";
 import { LuShoppingBag } from "react-icons/lu";
+import { products } from "../../product.json";
+
+import { HeaderContainer, SearchProductHeader, ShoppingWrapper } from "./style";
+
+import { useProduct } from "../contexts/Product";
 
 export function Header() {
+  const { setProductData } = useProduct();
+
   const [totalShoppingCart, setTotalShoppingCart] = useState<number>(0);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     const handleAtualizacaoCarrinho = () => {
-      setTotalShoppingCart(Number(getQuantityShoppingCart()));
+      const tShirtIds = getTShirt();
+      setTotalShoppingCart(tShirtIds.length);
     };
+
     window.addEventListener("atualizacaoCarrinho", handleAtualizacaoCarrinho);
-    setTotalShoppingCart(Number(getQuantityShoppingCart()));
+
+    handleAtualizacaoCarrinho();
 
     return () => {
       window.removeEventListener(
@@ -21,16 +32,32 @@ export function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    const results = products.filter((product) =>
+      product.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    setProductData(results);
+  }, [searchTerm]);
+
   return (
     <HeaderContainer>
-      <div>Legaltest</div>
+      <SearchProductHeader>
+        <p>legalTest</p>
+        <input
+          type="text"
+          placeholder="Pesquisar produtos..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </SearchProductHeader>
 
-      <ShoppingWrapper>
-        <a href="../../pages/shoppingCart">
+      <div>
+        <ShoppingWrapper href="/carrinho">
           <LuShoppingBag />
-          Carrinho({totalShoppingCart})
-        </a>
-      </ShoppingWrapper>
+          <span> Carrinho({totalShoppingCart})</span>
+        </ShoppingWrapper>
+      </div>
     </HeaderContainer>
   );
 }

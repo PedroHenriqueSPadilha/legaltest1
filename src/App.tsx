@@ -4,13 +4,16 @@ import { Header } from "./components/Header";
 import { GlobalStyle } from "./styles/global";
 import { createThemeDefault } from "./styles/themes/default";
 import { ThemeProvider } from "styled-components";
+import { ProductContextProvider } from "./components/contexts/Product";
 
 const App = () => {
   return (
     <ThemeProvider theme={createThemeDefault}>
-      <Header />
+      <ProductContextProvider>
+        <Header />
 
-      <RouterProvider router={router} />
+        <RouterProvider router={router} />
+      </ProductContextProvider>
       <GlobalStyle />
     </ThemeProvider>
   );
